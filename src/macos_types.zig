@@ -1,6 +1,6 @@
 //! Foundation / CoreGraphics value types, and AppKit enums and flag sets (64-bit macOS).
 //!
-//! Flag sets are `packed struct(u64)` (NSUInteger) so they combine like the Windows package's,
+//! Flag sets are `bitpack struct(u64)` (NSUInteger) so they combine like the Windows package's,
 //! e.g. `WindowStyleMask{ .titled = true, .closable = true }`.
 
 pub const CGFloat = f64;
@@ -32,7 +32,7 @@ pub const CGSize = NSSize;
 pub const CGRect = NSRect;
 
 /// NSWindowStyleMask.
-pub const WindowStyleMask = packed struct(u64) {
+pub const WindowStyleMask = bitpack struct(u64) {
     titled: bool = false, // 1 << 0
     closable: bool = false, // 1 << 1
     miniaturizable: bool = false, // 1 << 2
@@ -111,7 +111,7 @@ pub const EventType = enum(NSUInteger) {
 pub const event_mask_any: u64 = ~@as(u64, 0);
 
 /// NSEventModifierFlags (the low 16 bits are device-dependent).
-pub const ModifierFlags = packed struct(u64) {
+pub const ModifierFlags = bitpack struct(u64) {
     _device: u16 = 0,
     caps_lock: bool = false, // 1 << 16
     shift: bool = false, // 1 << 17
